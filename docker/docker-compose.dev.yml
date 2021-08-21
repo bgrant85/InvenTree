@@ -13,42 +13,33 @@ version: "3.8"
 # The django server will auto-detect any code changes and reload the server.
 
 services:
-
-    # Database service
-    # Use PostgreSQL as the database backend
-    # Note: This can be changed to a different backend if required
-    inventree-dev-db:
-        container_name: inventree-dev-db
+    inventree_db:
+        container_name: inventree_db
         image: postgres:13
         ports:
             - 5432/tcp
         environment:
-          - PGDATA=/var/lib/postgresql/data/dev/pgdb
-          # The pguser and pgpassword values must be the same in the other containers
-          # Ensure that these are correctly configured in your dev-config.env file
-          - POSTGRES_USER=pguser
-          - POSTGRES_PASSWORD=pgpassword
+            - PGDATA=/home/inventree/data/pgdb
+            # The pguser and pgpassword values must be the same in the other containers
+            # Ensure that these are correctly configured in your prod-config.env file
+            - POSTGRES_USER=pguser
+            - POSTGRES_PASSWORD=pgpassword
         volumes:
-          # Map 'data' volume such that postgres database is stored externally
-          - src:/var/lib/postgresql/data
+            # Map 'data' volume such that postgres database is stored externally
+            - src:/home/inventree/data/
         restart: unless-stopped
-
     # InvenTree web server services
     # Uses gunicorn as the web server
     inventree-dev-server:
         container_name: inventree-dev-server
-        depends_on:
-          - inventree-dev-db
         build:
             context: .
             target: dev
         ports:
             # Expose web server on port 8000
             - 8000:8000
-        # Note: If using the inventree-dev-proxy container (see below),
-        # comment out the "ports" directive (above) and uncomment the "expose" directive
-        #expose:
-        #    - 8000
+        depends_on:
+            - inventree_db
         volumes:
             # Ensure you specify the location of the 'src' directory at the end of this file
             - src:/home/inventree
@@ -65,6 +56,7 @@ services:
             target: dev
         command: invoke worker
         depends_on:
+            - inventree_db
             - inventree-dev-server
         volumes:
             # Ensure you specify the location of the 'src' directory at the end of this file
