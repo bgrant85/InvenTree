@@ -132,6 +132,7 @@ function supplierPartFields() {
         },
         note: {
             icon: 'fa-pencil-alt',
+            multiline: true,
         },
         packaging: {
             icon: 'fa-box',
