@@ -1019,3 +1019,6 @@ a {
     text-decoration: none;
     background-color: transparent;
 }
+textarea#id_note {
+    height: 300px;
+}
