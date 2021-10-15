@@ -1,4 +1,4 @@
-version: "3.8"
+version: "2"
 
 # Docker compose recipe for InvenTree
 # - Runs PostgreSQL as the database backend
@@ -116,4 +116,4 @@ volumes:
             o: bind
             # This directory specified where InvenTree data are stored "outside" the docker containers
             # Change this path to a local system path where you want InvenTree data stored
-            device: /path/to/data
+            device: /home/gi/data

@@ -9,3 +9,4 @@
 *.conf text
 *.sh text eol=lf
 *.js text
+*.png binary
