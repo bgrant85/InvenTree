@@ -10,3 +10,8 @@
 *.sh text eol=lf
 *.js text
 *.png binary
+*.eot binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+*.jpg binary
